@@ -4,12 +4,14 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Random exposing (..)
-import V1 exposing (..)
+import V2 exposing (..)
 
 
 type Msg
     = InsertRandom
     | Insert Int
+    | RotateLeft
+    | RotateRight
 
 
 
@@ -43,6 +45,12 @@ update msg model =
         Insert item ->
             ( insert item model, Cmd.none )
 
+        RotateLeft ->
+            ( rotl model, Cmd.none )
+
+        RotateRight ->
+            ( rotr model, Cmd.none )
+
 
 
 -- view
@@ -54,7 +62,7 @@ renderTree model =
         Empty ->
             div [ style [ ( "flex", "1" ), ( "text-align", "center" ) ] ] [ text "" ]
 
-        Tree head left right ->
+        Tree _ head left right ->
             div [ style [ ( "display", "flex" ), ( "flex", "1" ), ( "flex-direction", "column" ), ( "background-color", "rgba(255, 0, 0, 0.1)" ) ] ]
                 [ div [ style [ ( "flex", "1" ), ( "text-align", "center" ) ] ] [ text (toString head) ]
                 , div [ style [ ( "display", "flex" ), ( "flex-direction", "row" ), ( "justify-content", "space-between" ) ] ]
@@ -68,6 +76,8 @@ view : Model -> Html Msg
 view model =
     div []
         [ button [ onClick InsertRandom ] [ text "Insert" ]
+        , button [ onClick RotateLeft ] [ text "Rotate left" ]
+        , button [ onClick RotateRight ] [ text "Rotate right" ]
         , renderTree model
         ]
 
