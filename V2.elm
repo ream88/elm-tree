@@ -15,7 +15,7 @@ tree : comparable -> Set comparable -> Set comparable -> Set comparable
 tree head left right =
     let
         newHeight =
-            (max (height left) (height right)) + 1
+            max (height left) (height right) + 1
     in
         Tree newHeight head left right
 

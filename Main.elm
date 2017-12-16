@@ -7,33 +7,35 @@ import Random exposing (..)
 import V2 exposing (..)
 
 
-type Msg
-    = InsertRandom
-    | Insert Int
-    | RotateLeft
-    | RotateRight
-
-
-
--- model
+main : Program Never Model Msg
+main =
+    Html.program
+        { init = init
+        , update = update
+        , view = view
+        , subscriptions = subscriptions
+        }
 
 
 type alias Model =
     Set Int
 
 
-model : Model
-model =
+initModel : Model
+initModel =
     fromList [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
 
 
 init : ( Model, Cmd Msg )
 init =
-    ( model, Cmd.none )
+    ( initModel, Cmd.none )
 
 
-
--- update
+type Msg
+    = InsertRandom
+    | Insert Int
+    | RotateLeft
+    | RotateRight
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -52,11 +54,7 @@ update msg model =
             ( rotr model, Cmd.none )
 
 
-
--- view
-
-
-renderTree : Model -> Html a
+renderTree : Model -> Html Msg
 renderTree model =
     case model of
         Empty ->
@@ -82,19 +80,6 @@ view model =
         ]
 
 
-
--- subscriptions
-
-
 subscriptions : Model -> Sub Msg
-subscriptions model =
+subscriptions _ =
     Sub.none
-
-
-
--- main
-
-
-main : Program Never Model Msg
-main =
-    Html.program { init = init, update = update, view = view, subscriptions = subscriptions }
